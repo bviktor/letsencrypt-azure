@@ -38,42 +38,31 @@
   <build>
 	<plugins>
 		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-dependency-plugin</artifactId>
-			<version>2.10</version>
-			<executions>
-				<execution>
-					<id>copy-dependencies</id>
-					<phase>package</phase>
-					<goals>
-						<goal>copy-dependencies</goal>
-					</goals>
-					<configuration>
-						<outputDirectory>${project.build.directory}/lib</outputDirectory>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-jar-plugin</artifactId>
-			<version>2.6</version>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>2.2</version>
 			<configuration>
-				<finalName>${project.artifactId}</finalName>
-				<includes>
-					<include>LetsencryptAzure.class</include>
-				</includes>
+				<appendAssemblyId>false</appendAssemblyId>
+				<descriptorRefs>
+					<descriptorRef>jar-with-dependencies</descriptorRef>
+				</descriptorRefs>
 				<archive>
 					<manifest>
-						<addClasspath>true</addClasspath>
-						<!-- classpathPrefix>lib/</classpathPrefix -->
 						<mainClass>LetsencryptAzure</mainClass>
 					</manifest>
 					<manifestEntries>
-                		<Class-Path>.</Class-Path>
+						<Class-Path>.</Class-Path>
 					</manifestEntries>
 				</archive>
 			</configuration>
+			<executions>
+				<execution>
+					<id>make-assembly</id>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+			</executions>
 		</plugin>
 		<plugin>
         	<groupId>org.apache.maven.plugins</groupId>
@@ -85,5 +74,6 @@
         	</configuration>
       </plugin>
 	</plugins>
+	<finalName>${project.artifactId}</finalName>
   </build>
 </project>
